@@ -60,8 +60,6 @@ def download(update:Update,context:CallbackContext):
     chat_id = update.message.chat.id
     message = update.message.text
     print(message[12:21])
-    bot.sendMessage(chat_id,'Biroz kuting..')
-    message_id = update.message.message_id
     if message[12:21] == 'instagram':
         post = media(message)
         print(post)
