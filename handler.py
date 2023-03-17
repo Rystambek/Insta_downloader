@@ -1,5 +1,6 @@
 from telegram import Update,ReplyKeyboardMarkup,KeyboardButton,InlineKeyboardButton,InlineKeyboardMarkup
 from telegram.ext import Updater, Filters, CallbackContext, MessageHandler, CallbackQueryHandler, CommandHandler
+from request import media
 import requests
 from db import DB
 db = DB('db.json')
@@ -54,3 +55,24 @@ def tekshir(update:Update, context:CallbackContext):
     )
         bot.edit_message_text(chat_id=user_id,text=text,message_id=message_id,reply_markup=keyboard,parse_mode="MarkdownV2")
     
+def download(update:Update,context:CallbackContext):
+    bot = context.bot
+    chat_id = update.message.chat.id
+    message = update.message.text
+    print(message[12:21])
+    bot.sendMessage(chat_id,'Biroz kuting..')
+    message_id = update.message.message_id
+    if message[12:21] == 'instagram':
+        post = media(message)
+        print(post)
+        data = {
+            'text':post.get('title','@JR_InstagramBot bilan yuklab olindi.'),
+            'media':post.get('media'),
+            'type':post.get('Type')
+        }
+        if data['type']=='Post-Video':
+            bot.sendVideo(chat_id=chat_id,video=data['media'])
+            bot.sendMessage(chat_id=chat_id,text=data['text'])
+        elif data['type']=='Post-Image':
+            bot.sendPhoto(chat_id=chat_id,photo=data['media'])
+            bot.sendMessage(chat_id=chat_id,text=data['text'])
