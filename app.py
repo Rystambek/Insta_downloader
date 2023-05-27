@@ -8,7 +8,7 @@ from flask import Flask, request
 import os
 
 # get token from environment variable
-TOKEN = '6004154698:AAEo2pZT8WqoCqRGAXZchoYMtdgozcq3Kbc'
+TOKEN = '5696117143:AAH3Ej-BE4VgykO6NlKHUxYDQISbN85CzR0'
 
 bot = Bot(token=TOKEN)
 
@@ -30,7 +30,7 @@ def hello():
         
         dp: Dispatcher = Dispatcher(bot, update_queue=None, workers=0)
         update:Update = Update.de_json(data, bot)
-        
+
         dp.add_handler(CommandHandler('start',start))
         dp.add_handler(CallbackQueryHandler(tekshir,pattern='tekshirish'))
         dp.add_handler(MessageHandler(Filters.update,download))
