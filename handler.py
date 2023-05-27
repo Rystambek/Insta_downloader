@@ -57,20 +57,35 @@ def tekshir(update:Update, context:CallbackContext):
     
 def download(update:Update,context:CallbackContext):
     bot = context.bot
+    query = update.callback_query
     chat_id = update.message.chat.id
+    bot.send_message(chat_id=chat_id,text='⏳')
     message = update.message.text
     print(message[12:21])
     if message[12:21] == 'instagram':
         post = media(message)
-        print(post)
+        
         data = {
             'text':post.get('title','@JR_InstagramBot bilan yuklab olindi.'),
             'media':post.get('media'),
             'type':post.get('Type')
         }
+    
         if data['type']=='Post-Video':
-            bot.sendVideo(chat_id=chat_id,video=data['media'])
-            bot.sendMessage(chat_id=chat_id,text=data['text'])
+            bot.send_video(chat_id=chat_id,video=data['media'],caption=data['text'])
+            
         elif data['type']=='Post-Image':
-            bot.sendPhoto(chat_id=chat_id,photo=data['media'])
-            bot.sendMessage(chat_id=chat_id,text=data['text'])
+            bot.send_photo(chat_id=chat_id,photo=data['media'],caption=data['text'])
+
+        elif data['type'] == 'Carousel':
+            for id in data['media']:
+                if 'video' in id:
+                    bot.send_video(chat_id=chat_id,video=id)
+                else:
+                    bot.send_photo(chat_id=chat_id,photo=id)
+            bot.send_message(chat_id,text=data['text'])
+
+        
+
+
+        
