@@ -3,7 +3,7 @@ from telegram.ext import Updater, Filters, CallbackContext, MessageHandler, Call
 from request import media
 import requests
 from db import DB
-db = DB('db.json')
+db = DB('Insta_downloader/db.json')
 
 def start(update:Update,context:CallbackContext):
     bot = context.bot
